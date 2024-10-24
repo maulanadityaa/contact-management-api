@@ -13,6 +13,7 @@ import { PrismaService } from '../common/prisma.service';
 import { ValidationService } from '../common/validation.service';
 import { v4 as uuid } from 'uuid';
 import { User } from '@prisma/client';
+import { JwtAuthService } from 'src/jwt/jwt.service';
 
 @Injectable()
 export class UserService {
@@ -20,6 +21,7 @@ export class UserService {
     private validationService: ValidationService,
     @Inject(WINSTON_MODULE_PROVIDER) private readonly logger: Logger,
     private prismaService: PrismaService,
+    private jwtAuthService: JwtAuthService,
   ) {}
 
   async register(request: UserRegisterRequest): Promise<UserResponse> {
@@ -77,12 +79,14 @@ export class UserService {
       throw new HttpException('Username or password is invalid', 401);
     }
 
+    const token = await this.jwtAuthService.generateToken(user);
+
     user = await this.prismaService.user.update({
       where: {
         username: loginRequest.username,
       },
       data: {
-        token: uuid(),
+        token: token,
       },
     });
 
