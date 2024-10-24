@@ -13,7 +13,7 @@ import { ValidationService } from './validation.service';
 import { APP_FILTER } from '@nestjs/core';
 import { ErrorFilter } from './error.filter';
 import { AuthMiddleware } from './auth.middleware';
-import { JwtAuthModule } from 'src/jwt/jwt.module';
+import { JwtAuthModule } from '../jwt/jwt.module';
 
 @Global()
 @Module({
@@ -41,7 +41,7 @@ export class CommonModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer.apply(AuthMiddleware).forRoutes({
       path: '/api/v1/users/current',
-      method: RequestMethod.GET,
+      method: RequestMethod.ALL,
     });
   }
 }

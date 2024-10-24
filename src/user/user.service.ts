@@ -13,7 +13,7 @@ import { PrismaService } from '../common/prisma.service';
 import { ValidationService } from '../common/validation.service';
 import { v4 as uuid } from 'uuid';
 import { User } from '@prisma/client';
-import { JwtAuthService } from 'src/jwt/jwt.service';
+import { JwtAuthService } from '../jwt/jwt.service';
 
 @Injectable()
 export class UserService {

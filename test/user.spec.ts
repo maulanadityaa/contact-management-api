@@ -38,8 +38,6 @@ describe('UserController', () => {
           name: '',
         });
 
-      logger.info(response.body);
-
       expect(response.status).toBe(400);
       expect(response.body).toBeDefined();
     });
@@ -52,8 +50,6 @@ describe('UserController', () => {
           password: 'test',
           name: 'test',
         });
-
-      logger.info(response.body);
 
       expect(response.status).toBe(201);
       expect(response.body.data.username).toBe('test');
@@ -70,8 +66,6 @@ describe('UserController', () => {
           password: 'test',
           name: 'test',
         });
-
-      logger.info(response.body);
 
       expect(response.status).toBe(400);
       expect(response.body.errors).toBeDefined();
@@ -92,8 +86,6 @@ describe('UserController', () => {
           password: '',
         });
 
-      logger.info(response.body);
-
       expect(response.status).toBe(400);
       expect(response.body).toBeDefined();
     });
@@ -105,8 +97,6 @@ describe('UserController', () => {
           username: 'test',
           password: 'test',
         });
-
-      logger.info(response.body);
 
       expect(response.status).toBe(200);
       expect(response.body.data.username).toBe('test');
@@ -126,16 +116,16 @@ describe('UserController', () => {
         .get('/api/v1/users/current')
         .set('Authorization', 'wrong');
 
-      logger.info(response.body);
-
       expect(response.status).toBe(401);
       expect(response.body.errors).toBeDefined();
     });
 
     it('should be able to get current user', async () => {
+      const token = await testService.getToken();
+
       const response = await request(app.getHttpServer())
         .get('/api/v1/users/current')
-        .set('Authorization', 'test');
+        .set('Authorization', `Bearer ${token}`);
 
       logger.info(response.body);
 
@@ -152,9 +142,11 @@ describe('UserController', () => {
     });
 
     it('should be rejected if request is invalid', async () => {
+      const token = await testService.getToken();
+
       const response = await request(app.getHttpServer())
         .patch('/api/v1/users/current')
-        .set('Authorization', 'test')
+        .set('Authorization', `Bearer ${token}`)
         .send({
           name: '',
           password: '',
@@ -167,9 +159,11 @@ describe('UserController', () => {
     });
 
     it('should be able to update name of current user', async () => {
+      const token = await testService.getToken();
+
       const response = await request(app.getHttpServer())
         .patch('/api/v1/users/current')
-        .set('Authorization', 'test')
+        .set('Authorization', `Bearer ${token}`)
         .send({
           name: 'test updated',
         });
@@ -182,9 +176,11 @@ describe('UserController', () => {
     });
 
     it('should be able to update password of current user', async () => {
+      const token = await testService.getToken();
+
       let response = await request(app.getHttpServer())
         .patch('/api/v1/users/current')
-        .set('Authorization', 'test')
+        .set('Authorization', `Bearer ${token}`)
         .send({
           password: 'updated',
         });
@@ -227,9 +223,11 @@ describe('UserController', () => {
     });
 
     it('should be able to logout user', async () => {
+      const token = await testService.getToken();
+
       const response = await request(app.getHttpServer())
         .delete('/api/v1/users/current')
-        .set('Authorization', 'test');
+        .set('Authorization', `Bearer ${token}`);
 
       logger.info(response.body);
 

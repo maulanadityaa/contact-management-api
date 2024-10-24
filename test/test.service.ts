@@ -2,10 +2,14 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../src/common/prisma.service';
 import * as bcrypt from 'bcrypt';
 import { User } from '@prisma/client';
+import { JwtAuthService } from '../src/jwt/jwt.service';
 
 @Injectable()
 export class TestService {
-  constructor(private prismaService: PrismaService) {}
+  constructor(
+    private prismaService: PrismaService,
+    private jwtAuthService: JwtAuthService,
+  ) {}
 
   async deleteUser() {
     await this.prismaService.user.deleteMany({
@@ -31,6 +35,14 @@ export class TestService {
       where: {
         username: 'test',
       },
+    });
+  }
+
+  async getToken(): Promise<string> {
+    const user = await this.getUser();
+    return this.jwtAuthService.generateToken({
+      username: user.username,
+      name: user.name,
     });
   }
 }
