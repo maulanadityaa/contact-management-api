@@ -11,7 +11,6 @@ import { UserValidation } from './user.validation';
 import * as bcrypt from 'bcrypt';
 import { PrismaService } from '../common/prisma.service';
 import { ValidationService } from '../common/validation.service';
-import { v4 as uuid } from 'uuid';
 import { User } from '@prisma/client';
 import { JwtAuthService } from '../jwt/jwt.service';
 

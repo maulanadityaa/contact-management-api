@@ -39,9 +39,19 @@ import { JwtAuthModule } from '../jwt/jwt.module';
 })
 export class CommonModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(AuthMiddleware).forRoutes({
-      path: '/api/v1/users/current',
-      method: RequestMethod.ALL,
-    });
+    consumer.apply(AuthMiddleware).forRoutes(
+      {
+        path: '/api/v1/users/current',
+        method: RequestMethod.ALL,
+      },
+      {
+        path: '/api/v1/contacts',
+        method: RequestMethod.ALL,
+      },
+      {
+        path: '/api/v1/contacts/*',
+        method: RequestMethod.ALL,
+      },
+    );
   }
 }

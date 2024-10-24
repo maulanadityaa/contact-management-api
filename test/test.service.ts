@@ -45,4 +45,32 @@ export class TestService {
       name: user.name,
     });
   }
+
+  async deleteContact() {
+    await this.prismaService.contact.deleteMany({
+      where: {
+        username: 'test',
+      },
+    });
+  }
+
+  async createContact() {
+    await this.prismaService.contact.create({
+      data: {
+        first_name: 'test',
+        last_name: 'test',
+        email: 'test@email.com',
+        phone: '0813644257',
+        username: 'test',
+      },
+    });
+  }
+
+  async getContact() {
+    return this.prismaService.contact.findFirst({
+      where: {
+        username: 'test'
+      }
+    })
+  }
 }
