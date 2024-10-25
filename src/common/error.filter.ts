@@ -13,14 +13,17 @@ export class ErrorFilter implements ExceptionFilter {
 
     if (exception instanceof HttpException) {
       response.status(exception.getStatus()).json({
+        statusCode: exception.getStatus(),
         errors: exception.getResponse(),
-      });
+      })
     } else if (exception instanceof ZodError) {
       response.status(400).json({
+        statusCode: 400,
         errors: exception.errors,
       });
     } else {
       response.status(500).json({
+        statusCode: 500,
         errors: exception.message,
       });
     }

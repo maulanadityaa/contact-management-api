@@ -135,11 +135,13 @@ export class ContactService {
           {
             first_name: {
               contains: contactSearchRequest.name,
+              mode: 'insensitive',
             },
           },
           {
             last_name: {
               contains: contactSearchRequest.name,
+              mode: 'insensitive',
             },
           },
         ],
@@ -150,6 +152,7 @@ export class ContactService {
       filters.push({
         email: {
           contains: contactSearchRequest.email,
+          mode: 'insensitive',
         },
       });
     }
@@ -158,6 +161,7 @@ export class ContactService {
       filters.push({
         phone: {
           contains: contactSearchRequest.phone,
+          mode: 'insensitive',
         },
       });
     }
