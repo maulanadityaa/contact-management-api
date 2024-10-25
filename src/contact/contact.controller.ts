@@ -23,12 +23,16 @@ import {
   ContactUpdateRequest,
 } from '../model/contact.model';
 import { CommonResponse } from '../model/web.model';
+import { ApiOperation, ApiProperty, ApiResponse, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Contacts')
 @Controller('/api/v1/contacts')
 export class ContactController {
   constructor(private readonly contactService: ContactService) {}
 
   @Post()
+  @ApiOperation({ summary: 'Create a new contact' })
+  @ApiResponse({ status: HttpStatus.CREATED, description: 'Contact created' })
   async create(
     @Auth() user: User,
     @Body() request: ContactRequest,
@@ -43,6 +47,8 @@ export class ContactController {
   }
 
   @Get('/:contactId')
+  @ApiOperation({ summary: 'Get a contact' })
+  @ApiResponse({ status: HttpStatus.OK, description: 'Contact retrieved' })
   @HttpCode(HttpStatus.OK)
   async get(
     @Auth() user: User,
@@ -58,6 +64,8 @@ export class ContactController {
   }
 
   @Put('/:contactId')
+  @ApiOperation({ summary: 'Update a contact' })
+  @ApiResponse({ status: HttpStatus.OK, description: 'Contact updated' })
   @HttpCode(HttpStatus.OK)
   async update(
     @Auth() user: User,
@@ -74,6 +82,8 @@ export class ContactController {
   }
 
   @Delete('/:contactId')
+  @ApiOperation({ summary: 'Delete a contact' })
+  @ApiResponse({ status: HttpStatus.OK, description: 'Contact deleted' })
   @HttpCode(HttpStatus.OK)
   async delete(
     @Auth() user: User,
@@ -89,6 +99,8 @@ export class ContactController {
   }
 
   @Get()
+  @ApiOperation({ summary: 'Search contacts' })
+  @ApiResponse({ status: HttpStatus.OK, description: 'Contacts found' })
   @HttpCode(HttpStatus.OK)
   async search(
     @Auth() user: User,

@@ -18,12 +18,16 @@ import {
 } from '../model/user.model';
 import { Auth } from '../common/auth.decorator';
 import { User } from '@prisma/client';
+import { ApiOperation, ApiProperty, ApiResponse, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Users')
 @Controller('/api/v1/users')
 export class UserController {
   constructor(private userService: UserService) {}
 
   @Post('register')
+  @ApiOperation({ summary: 'Register a new user' })
+  @ApiResponse({ status: HttpStatus.CREATED, description: 'User registered' })
   async register(
     @Body() request: UserRegisterRequest,
   ): Promise<CommonResponse<UserResponse>> {
@@ -37,6 +41,8 @@ export class UserController {
   }
 
   @Post('login')
+  @ApiOperation({ summary: 'Login to the system' })
+  @ApiResponse({ status: HttpStatus.OK, description: 'Login successful' })
   @HttpCode(HttpStatus.OK)
   async login(
     @Body() request: UserLoginRequest,
@@ -51,6 +57,8 @@ export class UserController {
   }
 
   @Get('current')
+  @ApiOperation({ summary: 'Get current user' })
+  @ApiResponse({ status: HttpStatus.OK, description: 'User found' })
   @HttpCode(HttpStatus.OK)
   async get(@Auth() user: User): Promise<CommonResponse<UserResponse>> {
     const result = await this.userService.get(user);
@@ -63,6 +71,8 @@ export class UserController {
   }
 
   @Patch('current')
+  @ApiOperation({ summary: 'Update current user' })
+  @ApiResponse({ status: HttpStatus.OK, description: 'User updated' })
   @HttpCode(HttpStatus.OK)
   async update(
     @Auth() user: User,
@@ -78,6 +88,8 @@ export class UserController {
   }
 
   @Delete('current')
+  @ApiOperation({ summary: 'Logout current user' })
+  @ApiResponse({ status: HttpStatus.OK, description: 'User logged out' })
   @HttpCode(HttpStatus.OK)
   async logout(@Auth() user: User): Promise<CommonResponse<boolean>> {
     await this.userService.logout(user);

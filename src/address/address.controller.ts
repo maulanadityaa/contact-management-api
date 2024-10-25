@@ -19,12 +19,16 @@ import {
 } from '../model/address.model';
 import { Auth } from '../common/auth.decorator';
 import { User } from '@prisma/client';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Addresses')
 @Controller('/api/v1/contacts/:contactId/addresses')
 export class AddressController {
   constructor(private readonly addressService: AddressService) {}
 
   @Post()
+  @ApiOperation({ summary: 'Create a new address' })
+  @ApiResponse({ status: HttpStatus.CREATED, description: 'Address created' })
   async create(
     @Auth() user: User,
     @Param('contactId') contactId: string,
@@ -41,6 +45,8 @@ export class AddressController {
   }
 
   @Get('/:addressId')
+  @ApiOperation({ summary: 'Get an address' })
+  @ApiResponse({ status: HttpStatus.OK, description: 'Address retrieved' })
   @HttpCode(HttpStatus.OK)
   async get(
     @Auth() user: User,
@@ -61,6 +67,8 @@ export class AddressController {
   }
 
   @Put('/:addressId')
+  @ApiOperation({ summary: 'Update an address' })
+  @ApiResponse({ status: HttpStatus.OK, description: 'Address updated' })
   @HttpCode(HttpStatus.OK)
   async update(
     @Auth() user: User,
@@ -80,6 +88,8 @@ export class AddressController {
   }
 
   @Delete('/:addressId')
+  @ApiOperation({ summary: 'Delete an address' })
+  @ApiResponse({ status: HttpStatus.OK, description: 'Address deleted' })
   @HttpCode(HttpStatus.OK)
   async delete(
     @Auth() user: User,
@@ -100,6 +110,8 @@ export class AddressController {
   }
 
   @Get()
+  @ApiOperation({ summary: 'List all addresses' })
+  @ApiResponse({ status: HttpStatus.OK, description: 'Addresses retrieved' })
   @HttpCode(HttpStatus.OK)
   async list(
     @Auth() user: User,
