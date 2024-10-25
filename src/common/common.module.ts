@@ -19,6 +19,7 @@ import { JwtAuthModule } from '../jwt/jwt.module';
 @Module({
   imports: [
     WinstonModule.forRoot({
+      level: 'debug',
       format: winston.format.json(),
       transports: [new winston.transports.Console()],
     }),

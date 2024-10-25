@@ -1,6 +1,5 @@
 import { HttpException, Injectable, NestMiddleware } from '@nestjs/common';
 import { PrismaService } from './prisma.service';
-import { JwtService } from '@nestjs/jwt';
 import { JwtAuthService } from '../jwt/jwt.service';
 
 @Injectable()

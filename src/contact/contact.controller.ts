@@ -5,16 +5,23 @@ import {
   Get,
   HttpCode,
   HttpStatus,
-  Param, ParseIntPipe,
+  Param,
+  ParseIntPipe,
   ParseUUIDPipe,
   Patch,
   Post,
-  Put, Query,
+  Put,
+  Query,
 } from '@nestjs/common';
 import { ContactService } from './contact.service';
 import { Auth } from '../common/auth.decorator';
 import { User } from '@prisma/client';
-import { ContactRequest, ContactResponse, ContactSearchRequest, ContactUpdateRequest } from '../model/contact.model';
+import {
+  ContactRequest,
+  ContactResponse,
+  ContactSearchRequest,
+  ContactUpdateRequest,
+} from '../model/contact.model';
 import { CommonResponse } from '../model/web.model';
 
 @Controller('/api/v1/contacts')
@@ -88,8 +95,8 @@ export class ContactController {
     @Query('name') name?: string,
     @Query('email') email?: string,
     @Query('phone') phone?: string,
-    @Query('page', new ParseIntPipe({optional: true})) page?: number,
-    @Query('size', new ParseIntPipe({optional: true})) size?: number,
+    @Query('page', new ParseIntPipe({ optional: true })) page?: number,
+    @Query('size', new ParseIntPipe({ optional: true })) size?: number,
   ): Promise<CommonResponse<ContactResponse[]>> {
     const request: ContactSearchRequest = {
       name: name,
@@ -97,7 +104,7 @@ export class ContactController {
       phone: phone,
       page: page || 1,
       size: size || 10,
-    }
+    };
 
     return this.contactService.search(user, request);
   }
